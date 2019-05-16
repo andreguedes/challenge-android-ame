@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="TextViewBase" parent="TextAppearance.AppCompat.Large" />
+
+    <style name="TextViewMenuLogo" parent="TextViewBase">
+        <item name="android:textSize">@dimen/menu_text_size</item>
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
+
+</resources>
