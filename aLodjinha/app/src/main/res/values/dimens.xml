@@ -2,5 +2,9 @@
 <resources>
 
     <dimen name="menu_text_size">24sp</dimen>
+    <dimen name="margin_default">24dp</dimen>
+    <dimen name="logo_text_size">64sp</dimen>
+    <dimen name="developer_name_text_size">13sp</dimen>
+    <dimen name="development_date_text_size">12sp</dimen>
 
 </resources>

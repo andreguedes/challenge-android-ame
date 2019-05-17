@@ -4,16 +4,20 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import br.com.andreguedes.alodjinha.R
 import br.com.andreguedes.alodjinha.ui.base.BaseActivity
+import br.com.andreguedes.alodjinha.ui.main.about.AboutFragment
+import br.com.andreguedes.alodjinha.ui.main.home.HomeFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity(), MainContract.View {
+
+    override lateinit var presenter: MainContract.Presenter
 
     private lateinit var toggle: ActionBarDrawerToggle
 
@@ -34,6 +38,9 @@ class MainActivity : BaseActivity() {
     }
 
     override fun initUI() {
+        presenter = MainPresenter(this)
+        presenter.subscribe()
+
         toggle = ActionBarDrawerToggle(
             this,
             drawer_layout,
@@ -52,12 +59,8 @@ class MainActivity : BaseActivity() {
                 unCheckAllMenuItems(nav_view.menu)
                 it.isChecked = true
                 when (it.itemId) {
-                    R.id.nav_home -> {
-                        Toast.makeText(this@MainActivity, "Home", Toast.LENGTH_SHORT).show()
-                    }
-                    R.id.nav_about -> {
-                        Toast.makeText(this@MainActivity, "About", Toast.LENGTH_SHORT).show()
-                    }
+                    R.id.nav_home -> changeFragment(HomeFragment())
+                    R.id.nav_about -> changeFragment(AboutFragment())
                 }
                 drawer_layout.closeDrawer(GravityCompat.START)
                 return@setNavigationItemSelectedListener true
@@ -95,6 +98,14 @@ class MainActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (toggle.onOptionsItemSelected(item)) return true
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun initHomeFragment() {
+        changeFragment(HomeFragment())
+    }
+
+    override fun changeFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction().replace(R.id.container, fragment).commit()
     }
 
     companion object {
