@@ -1,6 +1,8 @@
 package br.com.andreguedes.alodjinha.ui.main
 
 import android.support.test.espresso.Espresso.onView
+import android.support.test.espresso.action.ViewActions.swipeLeft
+import android.support.test.espresso.action.ViewActions.swipeRight
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.contrib.DrawerActions.close
 import android.support.test.espresso.contrib.DrawerActions.open
@@ -40,8 +42,8 @@ class MainActivityTest {
         onView(withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.nav_home))
         onView(withId(R.id.drawer_layout)).perform(close())
 
-        onView(allOf(withId(R.id.txt_home_fragment), withEffectiveVisibility(Visibility.VISIBLE)))
-            .check(matches(withText("Home Fragment")))
+        onView(allOf(withId(R.id.pager_banner), withEffectiveVisibility(Visibility.VISIBLE)))
+            .check(matches(isDisplayed()))
     }
 
     @Test
@@ -58,6 +60,14 @@ class MainActivityTest {
             .check(matches(isDisplayed()))
         onView(allOf(withId(R.id.txtDevelopmentDate), withEffectiveVisibility(Visibility.VISIBLE)))
             .check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun navigateInBanner() {
+        onView(withId(R.id.progress_banner)).check(matches(isDisplayed()))
+        onView(withId(R.id.pager_banner)).perform(swipeLeft())
+        onView(withId(R.id.pager_banner)).perform(swipeLeft())
+        onView(withId(R.id.pager_banner)).perform(swipeRight())
     }
 
 }

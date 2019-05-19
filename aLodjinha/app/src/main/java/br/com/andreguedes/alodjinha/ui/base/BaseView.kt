@@ -4,4 +4,7 @@ interface BaseView<T> {
 
     var presenter: T
 
+    fun initUI()
+    fun addListeners()
+
 }
