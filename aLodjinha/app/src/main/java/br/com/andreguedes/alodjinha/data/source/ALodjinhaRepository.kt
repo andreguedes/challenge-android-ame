@@ -23,6 +23,10 @@ open class ALodjinhaRepository(
         return getService().getProducts(offset, limit, categoriaId)
     }
 
+    override fun getProductsBestSellers(): Observable<ProductResponse> {
+        return getService().getProductsBestSellers()
+    }
+
     private fun getService() = aLodjinhaService.getService()
 
 }

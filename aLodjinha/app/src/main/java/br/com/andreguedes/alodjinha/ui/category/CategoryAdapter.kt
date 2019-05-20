@@ -17,7 +17,7 @@ class CategoryAdapter(
 
     private val itens = arrayListOf<Any>()
 
-    fun setItens(itens: List<Any>?, loading: Boolean) {
+    fun setItens(itens: List<Any>?, loading: Boolean = false) {
         remoteLastItem()
 
         itens?.let {

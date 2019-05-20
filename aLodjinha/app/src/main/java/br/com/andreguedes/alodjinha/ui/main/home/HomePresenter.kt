@@ -17,6 +17,7 @@ class HomePresenter(
     override fun subscribe() {
         this.getBanners()
         this.getCategories()
+        this.getBestSellers()
     }
 
     override fun getBanners() {
@@ -40,6 +41,20 @@ class HomePresenter(
             .subscribe({
                 it.categoryList?.let { categories ->
                     view.setCategories(categories)
+                }
+            }, {
+                Log.e(TAG, it.message)
+            })
+        )
+    }
+
+    override fun getBestSellers() {
+        addDisposable(repository.getProductsBestSellers()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                it.productList?.let { products ->
+                    view.setBestSellers(products)
                 }
             }, {
                 Log.e(TAG, it.message)

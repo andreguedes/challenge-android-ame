@@ -14,7 +14,9 @@ import android.view.ViewGroup
 import br.com.andreguedes.alodjinha.R
 import br.com.andreguedes.alodjinha.data.model.Banner
 import br.com.andreguedes.alodjinha.data.model.Category
+import br.com.andreguedes.alodjinha.data.model.Product
 import br.com.andreguedes.alodjinha.ui.category.CategoryActivity
+import br.com.andreguedes.alodjinha.ui.category.CategoryAdapter
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.util.*
 
@@ -24,6 +26,7 @@ class HomeFragment : Fragment(), HomeContract.View {
 
     private lateinit var bannerAdapter : HomeBannerPagerAdapter
     private lateinit var categoriesAdapter: HomeCategoriesAdapter
+    private lateinit var bestSellerAdapter: CategoryAdapter
 
     private lateinit var timer : Timer
     var currentBanner = 0
@@ -52,6 +55,7 @@ class HomeFragment : Fragment(), HomeContract.View {
 
         setupBanners()
         setupCategories()
+        setupBestSellers()
     }
 
     override fun addListeners() {
@@ -85,6 +89,15 @@ class HomeFragment : Fragment(), HomeContract.View {
         categories_list.adapter = categoriesAdapter
     }
 
+    private fun setupBestSellers() {
+        bestSellerAdapter = CategoryAdapter {
+
+        }
+        best_sellers_list.itemAnimator = DefaultItemAnimator()
+        best_sellers_list.layoutManager = LinearLayoutManager(context)
+        best_sellers_list.adapter = bestSellerAdapter
+    }
+
     override fun setBanners(banners: List<Banner>) {
         progress_banner.visibility = View.GONE
         bannerAdapter.setBanners(banners)
@@ -93,6 +106,11 @@ class HomeFragment : Fragment(), HomeContract.View {
     override fun setCategories(categories: List<Category>) {
         progress_categories.visibility = View.GONE
         categoriesAdapter.setCategories(categories)
+    }
+
+    override fun setBestSellers(bestSellers: List<Product>) {
+        progress_best_sellers.visibility = View.GONE
+        bestSellerAdapter.setItens(bestSellers)
     }
 
     private fun setupIndicator() {

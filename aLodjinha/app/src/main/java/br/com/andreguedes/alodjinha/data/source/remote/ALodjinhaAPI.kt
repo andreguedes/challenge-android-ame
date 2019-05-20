@@ -22,4 +22,7 @@ interface ALodjinhaAPI {
         @Query("categoriaId") categoriaId: Int?
     ): Observable<ProductResponse>
 
+    @GET("/produto/maisvendidos")
+    fun getProductsBestSellers(): Observable<ProductResponse>
+
 }

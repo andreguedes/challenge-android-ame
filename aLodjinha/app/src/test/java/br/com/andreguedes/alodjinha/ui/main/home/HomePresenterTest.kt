@@ -2,10 +2,7 @@ package br.com.andreguedes.alodjinha.ui.main.home
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import br.com.andreguedes.alodjinha.RxImmediateSchedulerRule
-import br.com.andreguedes.alodjinha.data.model.Banner
-import br.com.andreguedes.alodjinha.data.model.BannerResponse
-import br.com.andreguedes.alodjinha.data.model.Category
-import br.com.andreguedes.alodjinha.data.model.CategoryResponse
+import br.com.andreguedes.alodjinha.data.model.*
 import br.com.andreguedes.alodjinha.data.source.ALodjinhaRepository
 import br.com.andreguedes.alodjinha.data.source.remote.ALodjinhaAPI
 import br.com.andreguedes.alodjinha.data.source.remote.ALodjinhaService
@@ -92,6 +89,31 @@ class HomePresenterTest {
         view.setCategories(categoryList)
 
         verify(view).setCategories(categoryList)
+    }
+
+    @Test
+    fun shouldReturnBestSellerProductListWhenPresenterIsSubscribed() {
+        val mockResponse = mock(ProductResponse::class.java)
+
+        val productList = arrayListOf(
+            Product(1, "Produto 1", "link1", "Descricao prod 1", 1.9, 1.7,
+                Category(1, "Cat 1", "link1")),
+            Product(2, "Produto 2", "link2", "Descricao prod 2", 2.9, 2.4,
+                Category(1, "Cat 1", "link1")),
+            Product(3, "Produto 3", "link3", "Descricao prod 3", 12.8, 11.9,
+                Category(1, "Cat 1", "link1"))
+        )
+
+        `when`(mockResponse.productList).thenReturn(productList).thenThrow(RuntimeException())
+        `when`(service.getService()).thenReturn(api)
+        `when`(repository.getProductsBestSellers()).thenReturn(Observable.just(mockResponse))
+
+        presenter.getBestSellers()
+        service.getService()
+        repository.getProductsBestSellers()
+        view.setBestSellers(productList)
+
+        verify(view).setBestSellers(productList)
     }
 
 }

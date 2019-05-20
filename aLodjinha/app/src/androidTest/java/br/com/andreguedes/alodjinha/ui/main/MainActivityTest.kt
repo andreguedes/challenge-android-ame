@@ -21,6 +21,7 @@ import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import br.com.andreguedes.alodjinha.R
 import br.com.andreguedes.alodjinha.ui.category.CategoryActivity
+import br.com.andreguedes.alodjinha.ui.category.CategoryAdapter
 import br.com.andreguedes.alodjinha.ui.main.home.HomeCategoriesAdapter
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.hamcrest.Matchers.allOf
@@ -125,6 +126,18 @@ class MainActivityTest {
 
         onView(withId(R.id.products_list)).check(matches(isDisplayed()))
         Intents.release()
+    }
+
+    @Test
+    fun shouldScrollBestSellerToLastAndReturnToFirstPosition() {
+        Thread.sleep(2000)
+
+        onView(withId(R.id.best_sellers_list))
+            .perform(RecyclerViewActions.scrollToPosition<CategoryAdapter.CategoryProductsViewHolder<Any>>(
+                activityTestRule.activity.best_sellers_list.adapter?.itemCount?.minus(1)!!
+            ))
+        onView(withId(R.id.best_sellers_list))
+            .perform(RecyclerViewActions.scrollToPosition<CategoryAdapter.CategoryProductsViewHolder<Any>>(0))
     }
 
 }

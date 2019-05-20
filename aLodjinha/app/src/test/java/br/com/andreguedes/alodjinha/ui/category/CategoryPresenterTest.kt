@@ -68,7 +68,7 @@ class CategoryPresenterTest {
 
         presenter.getProductsFromCategory(0)
         service.getService()
-        repository.getBanners()
+        repository.getProducts(0, 20, 1)
         view.setProducts(productList)
 
         verify(view).setProducts(productList)
