@@ -2,7 +2,7 @@
 
 Minimum SDK: API 15</br>
 Language: Kotlin</br>
-Architeture: MVP
+Architeture: MVP</br>
 Dependencies: Retrofit2, RxJava, RxAndroid, JUnit, Mockito, Espresso
 
 ## Structure:
