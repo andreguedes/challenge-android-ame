@@ -8,5 +8,7 @@
     <dimen name="development_date_text_size">12sp</dimen>
     <dimen name="product_description_text_size">18sp</dimen>
     <dimen name="category_name_text_size">13sp</dimen>
+    <dimen name="price_from_text_size">12sp</dimen>
+    <dimen name="price_to_text_size">20sp</dimen>
 
 </resources>

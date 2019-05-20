@@ -36,8 +36,8 @@ class HomeCategoriesAdapter(
 
         fun bindItem(category: Category) {
             with(itemView) {
-                ImageHelper.loadImage(this.context, category.urlImagem, img_category)
-                txt_category_name.text = category.descricao
+                ImageHelper.loadImage(this.context, category.urlImage, img_category)
+                txt_category_name.text = category.description
                 setOnClickListener {
                     listener.invoke(category)
                 }

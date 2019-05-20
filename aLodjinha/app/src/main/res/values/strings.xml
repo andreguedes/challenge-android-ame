@@ -17,4 +17,9 @@
     <!-- HomeFragment Strings -->
     <string name="categories">Categorias</string>
 
+    <!-- Products Strings -->
+    <string name="price_from">De: %s</string>
+    <string name="price_to">Por: %s</string>
+    <string name="no_products">Não há produtos nesta categoria</string>
+
 </resources>

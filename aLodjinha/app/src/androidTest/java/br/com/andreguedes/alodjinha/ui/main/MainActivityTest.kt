@@ -11,13 +11,16 @@ import android.support.test.espresso.contrib.DrawerActions.open
 import android.support.test.espresso.contrib.NavigationViewActions
 import android.support.test.espresso.contrib.RecyclerViewActions
 import android.support.test.espresso.intent.Intents
+import android.support.test.espresso.intent.Intents.intended
 import android.support.test.espresso.intent.Intents.intending
 import android.support.test.espresso.intent.matcher.IntentMatchers.hasAction
+import android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.filters.LargeTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import br.com.andreguedes.alodjinha.R
+import br.com.andreguedes.alodjinha.ui.category.CategoryActivity
 import br.com.andreguedes.alodjinha.ui.main.home.HomeCategoriesAdapter
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.hamcrest.Matchers.allOf
@@ -91,6 +94,13 @@ class MainActivityTest {
     }
 
     @Test
+    fun shouldValidateIfCategoriesListIsShowing() {
+        Thread.sleep(2000)
+
+        onView(withId(R.id.categories_list)).check(matches(isDisplayed()))
+    }
+
+    @Test
     fun shouldScrollCategoriesToLastAndReturnToFirstPosition() {
         onView(withId(R.id.categories_list))
             .perform(RecyclerViewActions.scrollToPosition<HomeCategoriesAdapter.HomeCategoriesViewHolder>(
@@ -98,6 +108,23 @@ class MainActivityTest {
             ))
         onView(withId(R.id.categories_list))
             .perform(RecyclerViewActions.scrollToPosition<HomeCategoriesAdapter.HomeCategoriesViewHolder>(0))
+    }
+
+    @Test
+    fun shouldOpenCategoryActivityWhenUserClickOnItemCategoryList() {
+        Thread.sleep(2000)
+
+        onView(withId(R.id.categories_list))
+            .perform(RecyclerViewActions.scrollToPosition<HomeCategoriesAdapter.HomeCategoriesViewHolder>(7))
+
+        Intents.init()
+        onView(withId(R.id.categories_list))
+            .perform(RecyclerViewActions.actionOnItemAtPosition<HomeCategoriesAdapter.HomeCategoriesViewHolder>(7, click()))
+
+        intended(hasComponent(CategoryActivity::class.java.name))
+
+        onView(withId(R.id.products_list)).check(matches(isDisplayed()))
+        Intents.release()
     }
 
 }

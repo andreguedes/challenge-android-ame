@@ -43,7 +43,7 @@ class HomeBannerPagerAdapter(
         val imgBanner = inflate.findViewById<ImageView>(R.id.img_pass)
         val banner = banners[position]
         banner.let {
-            ImageHelper.loadImage(inflate.context, it.urlImagem, imgBanner)
+            ImageHelper.loadImage(inflate.context, it.urlImage, imgBanner)
         }
         imgBanner.setOnClickListener {
             listener.invoke(banner.linkUrl)

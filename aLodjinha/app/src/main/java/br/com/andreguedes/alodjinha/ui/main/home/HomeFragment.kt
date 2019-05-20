@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import br.com.andreguedes.alodjinha.R
 import br.com.andreguedes.alodjinha.data.model.Banner
 import br.com.andreguedes.alodjinha.data.model.Category
+import br.com.andreguedes.alodjinha.ui.category.CategoryActivity
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.util.*
 
@@ -31,8 +32,8 @@ class HomeFragment : Fragment(), HomeContract.View {
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         initUI()
         addListeners()
@@ -76,7 +77,7 @@ class HomeFragment : Fragment(), HomeContract.View {
 
     private fun setupCategories() {
         categoriesAdapter = HomeCategoriesAdapter {
-            //TODO Open Categories activity
+            startActivity(CategoryActivity.newInstance(activity?.applicationContext, it))
         }
 
         categories_list.itemAnimator = DefaultItemAnimator()
