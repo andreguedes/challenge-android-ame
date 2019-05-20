@@ -12,6 +12,7 @@ import br.com.andreguedes.alodjinha.R
 import br.com.andreguedes.alodjinha.data.model.Category
 import br.com.andreguedes.alodjinha.data.model.Product
 import br.com.andreguedes.alodjinha.ui.base.BaseActivity
+import br.com.andreguedes.alodjinha.ui.product.detail.ProductDetailActivity
 import kotlinx.android.synthetic.main.activity_category.*
 
 class CategoryActivity : BaseActivity(), CategoryContract.View {
@@ -70,7 +71,7 @@ class CategoryActivity : BaseActivity(), CategoryContract.View {
 
     private fun setupCategories() {
         categoryAdapter = CategoryAdapter {
-            //TODO Open product detail activity
+            startActivity(ProductDetailActivity.newInstance(this, it))
         }
 
         products_list.itemAnimator = DefaultItemAnimator()

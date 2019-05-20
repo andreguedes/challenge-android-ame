@@ -17,6 +17,7 @@ import br.com.andreguedes.alodjinha.data.model.Category
 import br.com.andreguedes.alodjinha.data.model.Product
 import br.com.andreguedes.alodjinha.ui.category.CategoryActivity
 import br.com.andreguedes.alodjinha.ui.category.CategoryAdapter
+import br.com.andreguedes.alodjinha.ui.product.detail.ProductDetailActivity
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.util.*
 
@@ -81,7 +82,7 @@ class HomeFragment : Fragment(), HomeContract.View {
 
     private fun setupCategories() {
         categoriesAdapter = HomeCategoriesAdapter {
-            startActivity(CategoryActivity.newInstance(activity?.applicationContext, it))
+            startActivity(CategoryActivity.newInstance(requireActivity(), it))
         }
 
         categories_list.itemAnimator = DefaultItemAnimator()
@@ -91,7 +92,7 @@ class HomeFragment : Fragment(), HomeContract.View {
 
     private fun setupBestSellers() {
         bestSellerAdapter = CategoryAdapter {
-
+            startActivity(ProductDetailActivity.newInstance(requireActivity(), it))
         }
         best_sellers_list.itemAnimator = DefaultItemAnimator()
         best_sellers_list.layoutManager = LinearLayoutManager(context)

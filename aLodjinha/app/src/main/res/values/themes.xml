@@ -41,4 +41,9 @@
         <item name="android:textColor">@color/colorTomato</item>
     </style>
 
+    <style name="TextViewProductDescriptionDetail" parent="TextViewBase">
+        <item name="android:textSize">@dimen/product_description_detail_text_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>

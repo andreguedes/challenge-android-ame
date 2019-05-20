@@ -4,7 +4,10 @@ import br.com.andreguedes.alodjinha.data.model.BannerResponse
 import br.com.andreguedes.alodjinha.data.model.CategoryResponse
 import br.com.andreguedes.alodjinha.data.model.ProductResponse
 import io.reactivex.Observable
+import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ALodjinhaAPI {
@@ -24,5 +27,10 @@ interface ALodjinhaAPI {
 
     @GET("/produto/maisvendidos")
     fun getProductsBestSellers(): Observable<ProductResponse>
+
+    @POST("/produto/{produtoId}")
+    fun reserveProduct(
+        @Path("produtoId") produtoId: Int?
+    ): Observable<Response<Void>>
 
 }

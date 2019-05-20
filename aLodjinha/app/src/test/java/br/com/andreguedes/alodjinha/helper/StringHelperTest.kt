@@ -1,6 +1,7 @@
 package br.com.andreguedes.alodjinha.helper
 
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
 import org.junit.Test
 
 class StringHelperTest {
@@ -20,4 +21,5 @@ class StringHelperTest {
 
         assertNotEquals("R$ 9.32", currencyValue)
     }
+
 }

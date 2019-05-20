@@ -22,5 +22,8 @@
     <string name="price_from">De: %s</string>
     <string name="price_to">Por: %s</string>
     <string name="no_products">Não há produtos nesta categoria</string>
+    <string name="reserved_product">Produto reservado com sucesso</string>
+    <string name="reserved_product_error">Erro ao reservar o produto</string>
+    <string name="OK">OK</string>
 
 </resources>

@@ -4,14 +4,14 @@ import android.support.test.InstrumentationRegistry
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.contrib.RecyclerViewActions
-import android.support.test.espresso.matcher.ViewMatchers.*
+import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
+import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.filters.LargeTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import br.com.andreguedes.alodjinha.R
 import br.com.andreguedes.alodjinha.data.model.Category
 import kotlinx.android.synthetic.main.activity_category.*
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -25,11 +25,6 @@ class CategoryActivityTest {
     @get:Rule
     var activityTestRule: ActivityTestRule<CategoryActivity>
         = ActivityTestRule<CategoryActivity>(CategoryActivity::class.java, true, false)
-
-    @Before
-    fun setup() {
-
-    }
 
     @Test
     fun verifyViews() {

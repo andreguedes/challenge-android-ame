@@ -20,7 +20,7 @@ class ProductViewHolder(
             with(itemView) {
                 ImageHelper.loadImage(context, item.urlImage, img_product)
 
-                txt_product_name.text = item.nome
+                txt_product_name.text = item.name
                 txt_price_from.text = String.format(
                     context.getString(R.string.price_from),
                     StringHelper.formatCurrencyNew(item.priceFrom)
