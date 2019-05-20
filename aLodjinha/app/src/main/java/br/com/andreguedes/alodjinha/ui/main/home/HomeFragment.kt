@@ -1,14 +1,19 @@
 package br.com.andreguedes.alodjinha.ui.main.home
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
+import android.support.v7.widget.DefaultItemAnimator
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import br.com.andreguedes.alodjinha.R
 import br.com.andreguedes.alodjinha.data.model.Banner
+import br.com.andreguedes.alodjinha.data.model.Category
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.util.*
 
@@ -17,6 +22,8 @@ class HomeFragment : Fragment(), HomeContract.View {
     override lateinit var presenter: HomeContract.Presenter
 
     private lateinit var bannerAdapter : HomeBannerPagerAdapter
+    private lateinit var categoriesAdapter: HomeCategoriesAdapter
+
     private lateinit var timer : Timer
     var currentBanner = 0
 
@@ -43,6 +50,7 @@ class HomeFragment : Fragment(), HomeContract.View {
         presenter.subscribe()
 
         setupBanners()
+        setupCategories()
     }
 
     override fun addListeners() {
@@ -56,7 +64,9 @@ class HomeFragment : Fragment(), HomeContract.View {
     }
 
     private fun setupBanners() {
-        bannerAdapter = HomeBannerPagerAdapter(context)
+        bannerAdapter = HomeBannerPagerAdapter(context) {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(it)))
+        }
         pager_banner.adapter = bannerAdapter
         banner_indicator.setViewPager(pager_banner)
         bannerAdapter.registerDataSetObserver(banner_indicator.dataSetObserver)
@@ -64,9 +74,24 @@ class HomeFragment : Fragment(), HomeContract.View {
         setupIndicator()
     }
 
+    private fun setupCategories() {
+        categoriesAdapter = HomeCategoriesAdapter {
+            //TODO Open Categories activity
+        }
+
+        categories_list.itemAnimator = DefaultItemAnimator()
+        categories_list.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        categories_list.adapter = categoriesAdapter
+    }
+
     override fun setBanners(banners: List<Banner>) {
         progress_banner.visibility = View.GONE
         bannerAdapter.setBanners(banners)
+    }
+
+    override fun setCategories(categories: List<Category>) {
+        progress_categories.visibility = View.GONE
+        categoriesAdapter.setCategories(categories)
     }
 
     private fun setupIndicator() {

@@ -1,17 +1,25 @@
 package br.com.andreguedes.alodjinha.ui.main
 
+import android.app.Activity.RESULT_OK
+import android.app.Instrumentation
+import android.content.Intent
 import android.support.test.espresso.Espresso.onView
-import android.support.test.espresso.action.ViewActions.swipeLeft
-import android.support.test.espresso.action.ViewActions.swipeRight
+import android.support.test.espresso.action.ViewActions.*
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.contrib.DrawerActions.close
 import android.support.test.espresso.contrib.DrawerActions.open
 import android.support.test.espresso.contrib.NavigationViewActions
+import android.support.test.espresso.contrib.RecyclerViewActions
+import android.support.test.espresso.intent.Intents
+import android.support.test.espresso.intent.Intents.intending
+import android.support.test.espresso.intent.matcher.IntentMatchers.hasAction
 import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.filters.LargeTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import br.com.andreguedes.alodjinha.R
+import br.com.andreguedes.alodjinha.ui.main.home.HomeCategoriesAdapter
+import kotlinx.android.synthetic.main.fragment_home.*
 import org.hamcrest.Matchers.allOf
 import org.junit.Before
 import org.junit.Rule
@@ -68,6 +76,28 @@ class MainActivityTest {
         onView(withId(R.id.pager_banner)).perform(swipeLeft())
         onView(withId(R.id.pager_banner)).perform(swipeLeft())
         onView(withId(R.id.pager_banner)).perform(swipeRight())
+    }
+
+    @Test
+    fun shouldOpenWebBrowserWhenUserClickInBanner() {
+        onView(withId(R.id.progress_banner)).check(matches(isDisplayed()))
+        onView(withId(R.id.pager_banner)).perform(swipeRight())
+        onView(withId(R.id.pager_banner)).perform(click())
+
+        Intents.init()
+        intending(allOf(hasAction(Intent.ACTION_VIEW)))
+            .respondWith(Instrumentation.ActivityResult(RESULT_OK, null))
+        Intents.release()
+    }
+
+    @Test
+    fun shouldScrollCategoriesToLastAndReturnToFirstPosition() {
+        onView(withId(R.id.categories_list))
+            .perform(RecyclerViewActions.scrollToPosition<HomeCategoriesAdapter.HomeCategoriesViewHolder>(
+                activityTestRule.activity.categories_list.adapter?.itemCount?.minus(1)!!
+            ))
+        onView(withId(R.id.categories_list))
+            .perform(RecyclerViewActions.scrollToPosition<HomeCategoriesAdapter.HomeCategoriesViewHolder>(0))
     }
 
 }

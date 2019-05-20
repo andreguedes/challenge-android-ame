@@ -16,6 +16,7 @@ class HomePresenter(
 
     override fun subscribe() {
         this.getBanners()
+        this.getCategories()
     }
 
     override fun getBanners() {
@@ -25,6 +26,20 @@ class HomePresenter(
             .subscribe({
                 it.bannerList?.let { banners ->
                     view.setBanners(banners)
+                }
+            }, {
+                Log.e(TAG, it.message)
+            })
+        )
+    }
+
+    override fun getCategories() {
+        addDisposable(repository.getCategories()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                it.categoryList?.let { categories ->
+                    view.setCategories(categories)
                 }
             }, {
                 Log.e(TAG, it.message)

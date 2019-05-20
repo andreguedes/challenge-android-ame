@@ -6,5 +6,7 @@
     <dimen name="logo_text_size">64sp</dimen>
     <dimen name="developer_name_text_size">13sp</dimen>
     <dimen name="development_date_text_size">12sp</dimen>
+    <dimen name="product_description_text_size">18sp</dimen>
+    <dimen name="category_name_text_size">13sp</dimen>
 
 </resources>

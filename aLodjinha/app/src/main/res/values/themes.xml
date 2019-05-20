@@ -21,4 +21,13 @@
         <item name="android:textSize">@dimen/development_date_text_size</item>
     </style>
 
+    <style name="TextViewProductDescription" parent="TextViewBase">
+        <item name="android:textSize">@dimen/product_description_text_size</item>
+    </style>
+
+    <style name="TextViewCategoryName" parent="TextViewBase">
+        <item name="android:textSize">@dimen/category_name_text_size</item>
+        <item name="android:gravity">center</item>
+    </style>
+
 </resources>

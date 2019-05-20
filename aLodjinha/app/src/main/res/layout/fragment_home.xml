@@ -13,6 +13,7 @@
             android:layout_height="100dp"
             android:clickable="false"
             android:scrollbars="horizontal"
+            tools:background="@drawable/banner_sample"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -39,5 +40,53 @@
             app:layout_constraintEnd_toEndOf="@+id/pager_banner"
             app:layout_constraintStart_toStartOf="@+id/pager_banner"
             app:layout_constraintTop_toTopOf="@+id/pager_banner"/>
+
+    <TextView
+            android:id="@+id/textView6"
+            style="@style/TextViewProductDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/categories"
+            app:layout_constraintBottom_toTopOf="@+id/view"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pager_banner"/>
+
+    <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorGreyish"
+            app:layout_constraintBottom_toTopOf="@+id/categories_list"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView6"/>
+
+    <android.support.v7.widget.RecyclerView
+            android:id="@+id/categories_list"
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:layout_marginBottom="8dp"
+            android:fadeScrollbars="false"
+            android:orientation="horizontal"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view"
+            tools:listitem="@layout/item_category"/>
+
+    <ProgressBar
+            android:id="@+id/progress_categories"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/categories_list"
+            app:layout_constraintStart_toStartOf="@+id/categories_list"
+            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintTop_toBottomOf="@+id/view"
+            app:layout_constraintBottom_toBottomOf="@+id/categories_list"/>
 
 </android.support.constraint.ConstraintLayout>

@@ -11,7 +11,7 @@ import br.com.andreguedes.alodjinha.data.model.Banner
 import br.com.andreguedes.alodjinha.helper.ImageHelper
 
 class HomeBannerPagerAdapter(
-    context: Context?
+    context: Context?, private val listener: (linkUrl: String?) -> Unit
 ) : PagerAdapter() {
 
     private val layoutInflater = LayoutInflater.from(context)
@@ -44,6 +44,9 @@ class HomeBannerPagerAdapter(
         val banner = banners[position]
         banner.let {
             ImageHelper.loadImage(inflate.context, it.urlImagem, imgBanner)
+        }
+        imgBanner.setOnClickListener {
+            listener.invoke(banner.linkUrl)
         }
         return imgBanner
     }
