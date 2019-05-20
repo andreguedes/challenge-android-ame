@@ -85,18 +85,23 @@ class HomeFragment : Fragment(), HomeContract.View {
             startActivity(CategoryActivity.newInstance(requireActivity(), it))
         }
 
-        categories_list.itemAnimator = DefaultItemAnimator()
-        categories_list.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        categories_list.adapter = categoriesAdapter
+        with(categories_list) {
+            itemAnimator = DefaultItemAnimator()
+            this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            adapter = categoriesAdapter
+        }
     }
 
     private fun setupBestSellers() {
         bestSellerAdapter = CategoryAdapter {
             startActivity(ProductDetailActivity.newInstance(requireActivity(), it))
         }
-        best_sellers_list.itemAnimator = DefaultItemAnimator()
-        best_sellers_list.layoutManager = LinearLayoutManager(context)
-        best_sellers_list.adapter = bestSellerAdapter
+
+        with(best_sellers_list) {
+            itemAnimator = DefaultItemAnimator()
+            this.layoutManager = LinearLayoutManager(context)
+            adapter = bestSellerAdapter
+        }
     }
 
     override fun setBanners(banners: List<Banner>) {

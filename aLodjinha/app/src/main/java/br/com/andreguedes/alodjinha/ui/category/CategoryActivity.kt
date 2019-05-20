@@ -74,9 +74,11 @@ class CategoryActivity : BaseActivity(), CategoryContract.View {
             startActivity(ProductDetailActivity.newInstance(this, it))
         }
 
-        products_list.itemAnimator = DefaultItemAnimator()
-        products_list.layoutManager = layoutManager
-        products_list.adapter = categoryAdapter
+        with(products_list) {
+            itemAnimator = DefaultItemAnimator()
+            this.layoutManager = layoutManager
+            adapter = categoryAdapter
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -77,11 +77,10 @@ class ProductDetailActivity : BaseActivity(), ProductDetailContract.View {
     override fun addListeners() {
         app_bar_layout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
             val icon = toolbar.navigationIcon
-            if (verticalOffset == 0) {
-                icon!!.setColorFilter(resources.getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP)
-            } else {
-                icon!!.setColorFilter(resources.getColor(android.R.color.white), PorterDuff.Mode.SRC_ATOP)
-            }
+            val color = if (verticalOffset == 0) resources.getColor(R.color.colorPrimary)
+            else resources.getColor(android.R.color.white)
+
+            icon!!.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
         })
 
         fab_reserve.setOnClickListener {
