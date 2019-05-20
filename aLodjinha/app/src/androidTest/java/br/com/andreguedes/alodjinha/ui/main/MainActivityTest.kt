@@ -1,21 +1,30 @@
 package br.com.andreguedes.alodjinha.ui.main
 
-import android.support.test.espresso.Espresso
+import android.app.Activity.RESULT_OK
+import android.app.Instrumentation
+import android.content.Intent
 import android.support.test.espresso.Espresso.onView
+import android.support.test.espresso.action.ViewActions.*
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.contrib.DrawerActions.close
 import android.support.test.espresso.contrib.DrawerActions.open
 import android.support.test.espresso.contrib.NavigationViewActions
-import android.support.test.espresso.matcher.RootMatchers.withDecorView
+import android.support.test.espresso.contrib.RecyclerViewActions
+import android.support.test.espresso.intent.Intents
+import android.support.test.espresso.intent.Intents.intended
+import android.support.test.espresso.intent.Intents.intending
+import android.support.test.espresso.intent.matcher.IntentMatchers.hasAction
+import android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.filters.LargeTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import br.com.andreguedes.alodjinha.R
-import br.com.andreguedes.alodjinha.ui.SplashScreenTimeIdlingResource
-import org.hamcrest.Matchers.`is`
-import org.hamcrest.Matchers.not
-import org.junit.After
+import br.com.andreguedes.alodjinha.ui.category.CategoryActivity
+import br.com.andreguedes.alodjinha.ui.category.CategoryAdapter
+import br.com.andreguedes.alodjinha.ui.main.home.HomeCategoriesAdapter
+import kotlinx.android.synthetic.main.fragment_home.*
+import org.hamcrest.Matchers.allOf
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -29,17 +38,9 @@ class MainActivityTest {
     var activityTestRule: ActivityTestRule<MainActivity> =
         ActivityTestRule(MainActivity::class.java)
 
-    private var idlingResource: SplashScreenTimeIdlingResource? = null
-
     @Before
-    fun registerIntentServiceIdlingResource() {
-        idlingResource = SplashScreenTimeIdlingResource(1000)
-        Espresso.registerIdlingResources(idlingResource)
-    }
-
-    @After
-    fun unregisterIntentServiceIdlingResource() {
-        Espresso.unregisterIdlingResources(idlingResource)
+    fun setup() {
+        activityTestRule.activity.supportFragmentManager.beginTransaction()
     }
 
     @Test
@@ -52,7 +53,8 @@ class MainActivityTest {
         onView(withId(R.id.drawer_layout)).perform(open())
         onView(withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.nav_home))
         onView(withId(R.id.drawer_layout)).perform(close())
-        onView(withText("Home")).inRoot(withDecorView(not(`is`(getActivity().window.decorView))))
+
+        onView(allOf(withId(R.id.pager_banner), withEffectiveVisibility(Visibility.VISIBLE)))
             .check(matches(isDisplayed()))
     }
 
@@ -61,10 +63,81 @@ class MainActivityTest {
         onView(withId(R.id.drawer_layout)).perform(open())
         onView(withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.nav_about))
         onView(withId(R.id.drawer_layout)).perform(close())
-        onView(withText("About")).inRoot(withDecorView(not(`is`(getActivity().window.decorView))))
+
+        onView(allOf(withId(R.id.imgLogo), withEffectiveVisibility(Visibility.VISIBLE)))
+            .check(matches(isDisplayed()))
+        onView(allOf(withId(R.id.txtLogo), withEffectiveVisibility(Visibility.VISIBLE)))
+            .check(matches(isDisplayed()))
+        onView(allOf(withId(R.id.txtDeveloper), withEffectiveVisibility(Visibility.VISIBLE)))
+            .check(matches(isDisplayed()))
+        onView(allOf(withId(R.id.txtDevelopmentDate), withEffectiveVisibility(Visibility.VISIBLE)))
             .check(matches(isDisplayed()))
     }
 
-    private fun getActivity() = activityTestRule.activity
+    @Test
+    fun navigateInBanner() {
+        onView(withId(R.id.progress_banner)).check(matches(isDisplayed()))
+        onView(withId(R.id.pager_banner)).perform(swipeLeft())
+        onView(withId(R.id.pager_banner)).perform(swipeLeft())
+        onView(withId(R.id.pager_banner)).perform(swipeRight())
+    }
+
+    @Test
+    fun shouldOpenWebBrowserWhenUserClickInBanner() {
+        onView(withId(R.id.progress_banner)).check(matches(isDisplayed()))
+        onView(withId(R.id.pager_banner)).perform(swipeRight())
+        onView(withId(R.id.pager_banner)).perform(click())
+
+        Intents.init()
+        intending(allOf(hasAction(Intent.ACTION_VIEW)))
+            .respondWith(Instrumentation.ActivityResult(RESULT_OK, null))
+        Intents.release()
+    }
+
+    @Test
+    fun shouldValidateIfCategoriesListIsShowing() {
+        Thread.sleep(2000)
+
+        onView(withId(R.id.categories_list)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun shouldScrollCategoriesToLastAndReturnToFirstPosition() {
+        onView(withId(R.id.categories_list))
+            .perform(RecyclerViewActions.scrollToPosition<HomeCategoriesAdapter.HomeCategoriesViewHolder>(
+                activityTestRule.activity.categories_list.adapter?.itemCount?.minus(1)!!
+            ))
+        onView(withId(R.id.categories_list))
+            .perform(RecyclerViewActions.scrollToPosition<HomeCategoriesAdapter.HomeCategoriesViewHolder>(0))
+    }
+
+    @Test
+    fun shouldOpenCategoryActivityWhenUserClickOnItemCategoryList() {
+        Thread.sleep(2000)
+
+        onView(withId(R.id.categories_list))
+            .perform(RecyclerViewActions.scrollToPosition<HomeCategoriesAdapter.HomeCategoriesViewHolder>(7))
+
+        Intents.init()
+        onView(withId(R.id.categories_list))
+            .perform(RecyclerViewActions.actionOnItemAtPosition<HomeCategoriesAdapter.HomeCategoriesViewHolder>(7, click()))
+
+        intended(hasComponent(CategoryActivity::class.java.name))
+
+        onView(withId(R.id.products_list)).check(matches(isDisplayed()))
+        Intents.release()
+    }
+
+    @Test
+    fun shouldScrollBestSellerToLastAndReturnToFirstPosition() {
+        Thread.sleep(2000)
+
+        onView(withId(R.id.best_sellers_list))
+            .perform(RecyclerViewActions.scrollToPosition<CategoryAdapter.CategoryProductsViewHolder<Any>>(
+                activityTestRule.activity.best_sellers_list.adapter?.itemCount?.minus(1)!!
+            ))
+        onView(withId(R.id.best_sellers_list))
+            .perform(RecyclerViewActions.scrollToPosition<CategoryAdapter.CategoryProductsViewHolder<Any>>(0))
+    }
 
 }

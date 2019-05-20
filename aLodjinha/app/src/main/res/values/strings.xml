@@ -10,4 +10,20 @@
     <string name="menu_home">Home</string>
     <string name="menu_about">Sobre o aplicativo</string>
 
+    <!-- About Strings -->
+    <string name="developer_name">André Ricardo de Souza Guedes</string>
+    <string name="date_development">16 de Maio de 2019</string>
+
+    <!-- HomeFragment Strings -->
+    <string name="categories">Categorias</string>
+    <string name="best_sellers">Mais vendidos</string>
+
+    <!-- Products Strings -->
+    <string name="price_from">De: %s</string>
+    <string name="price_to">Por: %s</string>
+    <string name="no_products">Não há produtos nesta categoria</string>
+    <string name="reserved_product">Produto reservado com sucesso</string>
+    <string name="reserved_product_error">Erro ao reservar o produto</string>
+    <string name="OK">OK</string>
+
 </resources>
